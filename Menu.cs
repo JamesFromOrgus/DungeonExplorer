@@ -27,7 +27,16 @@ namespace DungeonExplorer
             _choices = choices;
         }
 
-        public void Display()
+        public void Open()
+        {
+            bool chosen = false;
+            while (!chosen)
+            {
+                chosen = Display();
+            }
+        }
+
+        private bool Display()
         {
             Console.Clear();
             Console.WriteLine(_prompt);
@@ -35,32 +44,26 @@ namespace DungeonExplorer
             {
                 choice.Display(choice == _choices[ChoiceIndex]);
             }
-            ConsoleKey key = Console.ReadKey().Key;
+            ConsoleKey key = Console.ReadKey(true).Key;
             switch (key)
             {
                 case ConsoleKey.UpArrow:
                 {
                     ChoiceIndex--;
-                    Display();
                     break;
                 }
                 case ConsoleKey.DownArrow:
                 {
                     ChoiceIndex++;
-                    Display();
                     break;
                 }
                 case ConsoleKey.Enter:
                 {
                     _choices[ChoiceIndex].Choose();
-                    break;
-                }
-                default:
-                {
-                    Display();
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
     }
 }

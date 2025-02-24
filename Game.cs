@@ -25,7 +25,7 @@ namespace DungeonExplorer
                 }, ConsoleColor.Red),
                 new Choice( "Option B", () => Console.WriteLine("ok you picked option B"))
             });
-            choice.Display();
+            choice.Open();
             // Change the playing logic into true and populate the while loop
             bool playing = false;
             while (playing)

@@ -24,6 +24,7 @@ namespace DungeonExplorer
 
         public void Choose()
         {
+            Console.Clear();
             _action();
         }
 
