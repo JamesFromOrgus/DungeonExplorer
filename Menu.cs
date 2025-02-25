@@ -17,13 +17,17 @@ namespace DungeonExplorer
             set
             {
                 int modulo = value % _choices.Length;
-                Console.WriteLine(modulo);
                 _choiceIndex = modulo >= 0 ? modulo : modulo + _choices.Length;
             }
         }
         
         public Menu(string prompt, Choice[] choices) {
             _prompt = prompt;
+            _choices = choices;
+        }
+
+        public Menu(Choice[] choices)
+        {
             _choices = choices;
         }
 
@@ -39,7 +43,10 @@ namespace DungeonExplorer
         private bool Display()
         {
             Console.Clear();
-            Console.WriteLine(_prompt);
+            if (!string.IsNullOrEmpty(_prompt))
+            {
+                Console.WriteLine(_prompt);
+            }
             foreach (Choice choice in _choices)
             {
                 choice.Display(choice == _choices[ChoiceIndex]);
