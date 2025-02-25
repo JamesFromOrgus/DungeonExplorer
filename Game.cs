@@ -27,8 +27,8 @@ namespace DungeonExplorer
             });
             choice.Open();
 
-            DialogueNode ping = new DialogueNode("Ping");
-            DialogueNode nextNode = new DialogueNode("I'm glad you wanted to hear more! 'ping' is an expression relating to the popular sport, Table Tennis.\n" +
+            DialogueNode ping = new DialogueNode("The guy", "Ping");
+            DialogueNode nextNode = new DialogueNode("The guy", "I'm glad you wanted to hear more! 'ping' is an expression relating to the popular sport, Table Tennis.\n" +
                 "It is commonly referred to as 'Ping-Pong', hence why 'pong' was provided as an option.\nUs going back and forth with 'ping' and 'pong' is reminiscent of\n" +
                 "a ping-pong ball oscillating from one side of the table to another.");
             ping.AddResponse("Pong", ping);

@@ -17,6 +17,11 @@ namespace DungeonExplorer
             _message = message;
         }
 
+        public DialogueNode(string speaker, string message)
+        {
+            _message = $"[{speaker}]:\n\"{message}\"";
+        }
+
         public void AddChoice(string message)
         {
             _responses.Add(message);
