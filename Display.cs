@@ -14,6 +14,7 @@ namespace DungeonExplorer
             string substring = currentMessage.Substring(charsWritten, amount);
             Console.Write(substring);
             charsWritten += amount;
+            if (charsWritten == currentMessage.Length) Console.ReadKey(true);
         }
 
         public static void Write(string message, bool newLine = true)

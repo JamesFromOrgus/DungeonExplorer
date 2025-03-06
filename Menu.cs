@@ -25,10 +25,21 @@ namespace DungeonExplorer
             _prompt = prompt;
             _choices = choices;
         }
+        
+        public Menu(string prompt, List<Choice> choices)
+        {
+            _prompt = prompt;
+            _choices = choices.ToArray();
+        }
 
         public Menu(Choice[] choices)
         {
             _choices = choices;
+        }
+        
+        public Menu(List<Choice> choices)
+        {
+            _choices = choices.ToArray();
         }
 
         public void Open()

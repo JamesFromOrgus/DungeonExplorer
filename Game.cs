@@ -4,17 +4,30 @@ using System.Media;
 
 namespace DungeonExplorer
 {
-    internal class Game
+    public static class Game
     {
-        private Player player;
-        private Room currentRoom;
+        private static Player player;
+        private static Room currentRoom;
+        private static int _minutesRemaining = 72 * 60;
 
-        public Game()
+        public static bool ElapseTime(int minutes)
         {
-            // Initialize the game with one room and one player
-            
+            _minutesRemaining = Math.Max(_minutesRemaining - minutes, 0);
+            return _minutesRemaining == 0;
         }
-        public void Start()
+
+        public static void DisplayTime(bool showMinutes = false)
+        {
+            if (showMinutes)
+            {
+                Display.Write($"You have {_minutesRemaining / 60} hours and " +
+                              $"{_minutesRemaining % 60} minutes remaining.");
+                return;
+            }
+            Display.Write($"You have {_minutesRemaining / 60} hours remaining.");
+        }
+        
+        public static void Start()
         {
             // Menu choice = new Menu("Pick a word:", new[]
             // {
@@ -40,6 +53,13 @@ namespace DungeonExplorer
 
             Display.Write("Here is a test. I am gonna fill this up with words so it takes long enough to write to the" +
                           "\nthe screen as I would like to test some things such as skipping the typewriting effect.");
+
+            Room room1 = new Room("Astral Observatory", "You walk through the door to be greeted" +
+                                                        "by a huge telescope overlooking the night sky.");
+            Room room2 = new Room("North Clocktown", "As you come through the gate you notice a" +
+                                                     " sizeable balloon hovering in the sky.");
+            new Route(room1, room2, 10);
+            room1.Enter();
 
             // Change the playing logic into true and populate the while loop
             bool playing = false;
