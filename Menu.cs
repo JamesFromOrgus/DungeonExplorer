@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace DungeonExplorer
@@ -77,8 +78,16 @@ namespace DungeonExplorer
                 }
                 case ConsoleKey.Enter:
                 {
-                    _choices[ChoiceIndex].Choose();
-                    return true;
+                    try
+                    {
+                        _choices[ChoiceIndex].Choose();
+                        return true;
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        DungeonExplorer.Display.Write("No options. FIX THIS MENU.");
+                        return true;
+                    }
                 }
             }
             return false;

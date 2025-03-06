@@ -58,7 +58,7 @@ namespace DungeonExplorer
                                                         "by a huge telescope overlooking the night sky.");
             Room room2 = new Room("North Clocktown", "As you come through the gate you notice a" +
                                                      " sizeable balloon hovering in the sky.");
-            new Route(room1, room2, 10);
+            new Route(room1, room2, 10, true);
             room1.Enter();
 
             // Change the playing logic into true and populate the while loop
