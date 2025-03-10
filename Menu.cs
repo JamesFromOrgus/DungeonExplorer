@@ -59,6 +59,8 @@ namespace DungeonExplorer
             {
                 Console.WriteLine(_prompt);
             }
+            
+            Debug.Assert(_choices.Length > 0, "Menu with no choices, fix required.");
             foreach (Choice choice in _choices)
             {
                 choice.Display(choice == _choices[ChoiceIndex]);
@@ -85,7 +87,7 @@ namespace DungeonExplorer
                     }
                     catch (IndexOutOfRangeException e)
                     {
-                        DungeonExplorer.Display.Write("No options. FIX THIS MENU.");
+                        Console.WriteLine("No option was chosen. This is probably the result of a bug.");
                         return true;
                     }
                 }

@@ -19,10 +19,12 @@ namespace DungeonExplorer
         {
             Route[] destinations = Route.GetRoutes(this);
             Choice[] choices = new Choice[destinations.Length];
-            foreach (Route route in destinations)
+            //foreach (Route route in destinations)
+            for (int i = 0; i < destinations.Length; i++)
             {
+                Route route = destinations[i];
                 route.TryGetDestination(this, out Room destination);
-                choices[0] = new Choice($"Go to {destination.Name}", () =>
+                choices[i] = new Choice($"Go to {destination.Name} (takes {route.TimeTaken} minutes)", () =>
                 {
                     route.Take(this);
                     Game.DisplayTime(true);

@@ -10,6 +10,10 @@ namespace DungeonExplorer
         private readonly Room _destination;
         private readonly int _timeTaken = 0;
         private readonly bool _oneWay = false;
+        public int TimeTaken
+        {
+            get => _timeTaken;
+        }
 
         public Route(Room origin, Room destination, int timeTaken, bool oneWay = false)
         {
