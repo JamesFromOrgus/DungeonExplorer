@@ -4,8 +4,6 @@ namespace DungeonExplorer
 {
     public class Room
     {
-        private readonly string _name;
-        private readonly string _description;
         public string Name { get; private set; }
         public string Description { get; private set; }
 
