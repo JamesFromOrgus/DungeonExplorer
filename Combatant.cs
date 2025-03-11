@@ -9,8 +9,8 @@ namespace DungeonExplorer
     public class Combatant
     {
         protected static readonly Random Generator = new Random();
-        protected readonly string _name = "BaseCombatant";
-        private int _health;
+        protected string _name = "BaseCombatant";
+        protected int _health;
         protected int _maxHealth;
         protected int _damage;
         

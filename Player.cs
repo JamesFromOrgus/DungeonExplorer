@@ -2,24 +2,24 @@
 
 namespace DungeonExplorer
 {
-    public class Player
+    public class Player: Combatant
     {
-        public string Name { get; private set; }
-        public int Health { get; private set; }
-        private List<string> inventory = new List<string>();
+        private List<string> _inventory = new List<string>();
 
-        public Player(string name, int health) 
+        public Player(string name, int health, int damage) 
         {
-            Name = name;
-            Health = health;
+            _name = name;
+            _maxHealth = health;
+            _health = _maxHealth;
+            _damage = damage;
         }
         public void PickUpItem(string item)
         {
-
+            
         }
         public string InventoryContents()
         {
-            return string.Join(", ", inventory);
+            return string.Join(", ", _inventory);
         }
     }
 }
