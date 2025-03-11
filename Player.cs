@@ -15,8 +15,14 @@ namespace DungeonExplorer
         }
         public void PickUpItem(string item)
         {
-            
+            _inventory.Add(item);
         }
+
+        public bool OwnsItem(string item)
+        {
+            return _inventory.Contains(item);
+        }
+        
         public string InventoryContents()
         {
             return string.Join(", ", _inventory);
