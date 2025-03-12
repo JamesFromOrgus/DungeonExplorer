@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace DungeonExplorer
 {
+    /// <summary>
+    /// Represents a path between two nodes in the room graph. Can be unidirectional or bidirectional.
+    /// Also, can take a certain amount of time to traverse.
+    /// </summary>
     public class Route
     {
         static readonly List<Route> Routes = new List<Route>();

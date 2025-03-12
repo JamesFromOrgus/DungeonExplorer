@@ -5,6 +5,11 @@ using System.Linq;
 
 namespace DungeonExplorer
 {
+    /// <summary>
+    /// Provides interface to select from a finite amount of options, performing an action associated to whichever
+    /// 'Choice' was chosen. This means there is little chance for error: no opportunity for erroneous input like
+    /// there is with Console.ReadLine
+    /// </summary>
     public class Menu
     {
         private readonly string _prompt;
@@ -22,6 +27,10 @@ namespace DungeonExplorer
             }
         }
         
+        /// <summary>
+        /// Multiple constructors to allow for ease of use: may not always know how many options there will be before
+        /// generating them -> easier to use list rather than array in certain cases.
+        /// </summary>
         public Menu(string prompt, Choice[] choices) {
             _prompt = prompt;
             _choices = choices;
@@ -42,7 +51,10 @@ namespace DungeonExplorer
         {
             _choices = choices.ToArray();
         }
-
+    
+        /// <summary>
+        /// Keep displaying menu until a choice is made.
+        /// </summary>
         public void Open()
         {
             bool chosen = false;
@@ -52,6 +64,9 @@ namespace DungeonExplorer
             }
         }
 
+        /// <summary>
+        /// Render the menu. Update current choice pointer if up/down is pressed on keyboard.
+        /// </summary>
         private bool Display()
         {
             Console.Clear();

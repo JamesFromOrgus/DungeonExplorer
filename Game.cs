@@ -4,6 +4,10 @@ using System.Media;
 
 namespace DungeonExplorer
 {
+    /// <summary>
+    /// Keep track of in-game time and instantiate everything necessary for the game to start and continue to function.
+    /// This includes the player, and all rooms
+    /// </summary>
     public static class Game
     {
         private static Player player = new Player("Link", 100, 30);
@@ -12,12 +16,18 @@ namespace DungeonExplorer
         
         public static Player CurrentPlayer { get => player; }
 
+        /// <summary>
+        /// Skip through in-game time, meaning the player is closer to running out and failing.
+        /// </summary>
         public static bool ElapseTime(int minutes)
         {
             _minutesRemaining = Math.Max(_minutesRemaining - minutes, 0);
             return _minutesRemaining == 0;
         }
 
+        /// <summary>
+        /// Display how much in-game time the player has to beat the game. If time is at zero, game over.
+        /// </summary>
         public static void DisplayTime(bool showMinutes = false)
         {
             if (showMinutes)
@@ -27,14 +37,22 @@ namespace DungeonExplorer
                 return;
             }
             Display.Write($"You have {_minutesRemaining / 60} hours remaining.");
+            if (_minutesRemaining == 0) Over();
         }
 
+        /// <summary>
+        /// Tell the user they failed to beat the game and quit.
+        /// </summary>
         public static void Over()
         {
             Display.Write($"Game over. You have failed...");
             Environment.Exit(0);
         }
         
+        /// <summary>
+        /// Create every object necessary for the game to run and traverse into the first room, passing control
+        /// over to the player.
+        /// </summary>
         public static void Start()
         {
             // Menu choice = new Menu("Pick a word:", new[]
