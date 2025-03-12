@@ -13,11 +13,29 @@ namespace DungeonExplorer
         public string Description { get; private set; }
         private List<Combatant> _enemies = new List<Combatant>();
         private List<string> _items = new List<string>();
+        private List<Choice> _choices = new List<Choice>();
 
         public Room(string name, string description)
         {
             Name = name;
             Description = description;
+            AddChoice("View inventory", () =>
+            {
+                Display.Write($"Your inventory contains:\n{Game.CurrentPlayer.InventoryContents()}");
+                ShowMenu();
+            });
+        }
+        
+        /// <summary>
+        /// Add a choice to the room which will show up when you enter among with the navigation menu.
+        /// </summary>
+        public void AddChoice(string text, Action action)
+        {
+            _choices.Add(new Choice(text, () =>
+            {
+                action();
+                ShowMenu();
+            }));
         }
 
         /// <summary>
@@ -33,6 +51,16 @@ namespace DungeonExplorer
         public void AddItem(string item)
         {
             _items.Add(item);
+        }
+
+        public void AddDialogue(DialogueNode dialogue, string message)
+        {
+            Choice dialogueChoice = new Choice(message, () =>
+            {
+                dialogue.Display();
+                ShowMenu();
+            });
+            _choices.Add(dialogueChoice);
         }
         
         /// <summary>
@@ -72,6 +100,11 @@ namespace DungeonExplorer
                     PickUpItem(item);
                     ShowMenu();
                 }));
+            }
+
+            foreach (Choice choice in _choices)
+            {
+                choices.Add(choice);
             }
 
             string nameText = $"You enter {Name}.";

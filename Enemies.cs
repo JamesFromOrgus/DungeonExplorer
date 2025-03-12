@@ -9,7 +9,7 @@ namespace DungeonExplorer
         {
             _maxHealth = 50;
             _health = _maxHealth;
-            _damage = 7;
+            _damage = 35;
             _name = "Shade";
         }
     }
@@ -23,7 +23,7 @@ namespace DungeonExplorer
         {
             _maxHealth = 30;
             _health = _maxHealth;
-            _damage = 5;
+            _damage = 20;
             _name = "Ghoul";
         }
     }

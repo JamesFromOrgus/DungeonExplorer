@@ -10,7 +10,7 @@ namespace DungeonExplorer
     /// Similar to room, this is a node of a graph data-structure, allowing user to navigate between different
     /// dialogue messages.
     /// </summary>
-    class DialogueNode
+    public class DialogueNode
     {
         private string _message;
         private List<string> _responses = new List<string>();

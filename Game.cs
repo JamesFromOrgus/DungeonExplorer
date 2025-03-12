@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Media;
 
 namespace DungeonExplorer
@@ -10,7 +11,7 @@ namespace DungeonExplorer
     /// </summary>
     public static class Game
     {
-        private static Player player = new Player("Link", 100, 30);
+        private static Player player;
         private static Room currentRoom;
         private static int _minutesRemaining = 72 * 60;
         
@@ -50,54 +51,101 @@ namespace DungeonExplorer
         }
         
         /// <summary>
+        /// Tell the user they won the game and quit.
+        /// </summary>
+        public static void Win()
+        {
+            Display.Write($"You have successfully escaped Clocktown!");
+            Display.Write($"The moon will not crash down on you, {player.Name}.");
+            Display.Write("Well done!");
+            Environment.Exit(0);
+        }
+    
+        /// <summary>
+        /// Prompt user to enter a name, until a valid one is entered.
+        /// </summary>
+        public static string GetName()
+        {
+            string name;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("What is your name?\n> ");
+                name = Console.ReadLine();
+                bool valid = name.All(Char.IsLetter) && !string.IsNullOrWhiteSpace(name);
+                if (valid) break;
+                Display.Write("Please only use letters.");
+            }
+            return name;
+        }
+        
+        /// <summary>
         /// Create every object necessary for the game to run and traverse into the first room, passing control
         /// over to the player.
         /// </summary>
         public static void Start()
         {
-            // Menu choice = new Menu("Pick a word:", new[]
-            // {
-            //     new Choice("Option A", () =>
-            //     {
-            //         Console.WriteLine("ok you picked option A");
-            //         Console.WriteLine("Multiline function lol");
-            //     }, ConsoleColor.Red),
-            //     new Choice( "Option B", () => Console.WriteLine("ok you picked option B"))
-            // });
-            // choice.Open();
-            //
-            // DialogueNode ping = new DialogueNode("The guy", "Ping");
-            // DialogueNode nextNode = new DialogueNode("The guy", "I'm glad you wanted to hear more! 'ping' is an expression relating to the popular sport, Table Tennis.\n" +
-            //     "It is commonly referred to as 'Ping-Pong', hence why 'pong' was provided as an option.\nUs going back and forth with 'ping' and 'pong' is reminiscent of\n" +
-            //     "a ping-pong ball oscillating from one side of the table to another.");
-            // ping.AddResponse("Pong", ping);
-            // ping.AddResponse("Please elaborate.", nextNode);
-            // ping.AddChoice("Leave");
-            // nextNode.AddResponse("Interesting, let's continue.", ping);
-            //
-            // ping.Display();
-
-            Display.Write("Here is a test. I am gonna fill this up with words so it takes long enough to write to the" +
-                          "\nthe screen as I would like to test some things such as skipping the typewriting effect.");
-
-            Room room1 = new Room("Astral Observatory", "You walk through the door to be greeted" +
+            player = new Player(GetName(), 100, 30);
+            Room observatory = new Room("Astral Observatory", "You walk through the door to be greeted " +
                                                         "by a huge telescope overlooking the night sky.");
-            Room room2 = new Room("North Clocktown", "As you come through the gate you notice a" +
-                                                     " sizeable balloon hovering in the sky.");
-            Room test = new Room("South Clocktown", "testing");
-            test.AddEnemy(new Ghoul());
-            test.AddEnemy(new Shade());
-            test.AddItem("Ocarina of Time");
-            new Route(room1, room2, 10, true);
-            new Route(room1, test, 10);
-            room1.Enter();
-
-            // Change the playing logic into true and populate the while loop
-            bool playing = false;
-            while (playing)
+            observatory.AddChoice("Read ominous sign", () =>
             {
-                // Code your playing logic here
-            }
+                Display.Write("The sign reads: 'I have foreseen that the moon will fall " +
+                    "from the sky. 3 days marks the calamity...'");
+            });
+            observatory.AddChoice("Look through telescope", () =>
+            {
+                Display.Write("You look through the telescope.");
+                Display.Write("The moon looks bigger than usual...");
+            });
+
+            Room east = new Room("East Clocktown", "The once bustling high-street is almost empty. " +
+                                                   "The moon must have scared everyone away...");
+            new Route(observatory, east, 1);
+            
+            Room north = new Room("North Clocktown", "You walk through the gates to be greeted by " +
+                                                     "empty carnival stalls, and a campfire; it seems somebody was\n" +
+                                                     "camping here before it was overrun by monsters...");
+            north.AddEnemy(new Ghoul());
+            north.AddEnemy(new Shade());
+            north.AddChoice("Rest at campfire", () =>
+            {
+                Display.Write("You sit down at the campfire, enjoying the temporary respite.");
+                player.Heal();
+            });
+            new Route(east, north, 30);
+            Room south = new Room("South Clocktown", "Rows of slum housing line the streets. This " +
+                                                     "doesn't seem like a nice place to live, even if the moon's " +
+                                                     "minions weren't everywhere.");
+            new Route(east, south, 40);
+            DialogueNode start = new DialogueNode("Sketchy Old Man", "This here key... it can take you " +
+                                                                     "out of this damned place...");
+            DialogueNode elaborate = new DialogueNode("Sketchy Old Man", "Ye' must take it te the " +
+                                                                         "West, young'un! Now begone!");
+            start.AddResponse("Uh, what does it open?", elaborate);
+            start.AddChoice("Ignore him");
+            Room shack = new Room("Rundown Shack", "You open the door to a broken-down shack. There's " +
+                                                   "a shelf in the corner of the room. On it, lies a golden key.\n" +
+                                                   "A suspicious old man glares at you from across the room.");
+            shack.AddItem("Gate Key");
+            shack.AddDialogue(start, "Talk to old man");
+            new Route(south, shack, 1);
+            Room west = new Room("West Clocktown", "The gates of Clocktown stand in front of you. " +
+                                                   "This is where you can make your escape and save yourself\nfrom " +
+                                                   "the moon.");
+            west.AddChoice("Escape through the gate", () =>
+            {
+                if (player.OwnsItem("Gate Key"))
+                {
+                    Game.Win();
+                };
+                Display.Write("You don't have the key.");
+            });
+            west.AddItem("Rupee");
+            new Route(south, west, 60);
+            new Route(north, west, 45);
+
+            observatory.Enter();
         }
     }
 }

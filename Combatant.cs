@@ -53,8 +53,14 @@ namespace DungeonExplorer
                 return false;
             }
             Health -= damage;
-            Display.Write($"{Name} takes {damage} damage.");
+            Display.Write($"{Name} takes {damage} damage. [{Health}/{_maxHealth}hp]");
             return true;
+        }
+
+        public void Heal()
+        {
+            Health = _maxHealth;
+            Display.Write($"Restored to {Health} health.");
         }
 
         /// <summary>

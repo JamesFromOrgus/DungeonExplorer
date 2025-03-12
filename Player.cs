@@ -57,7 +57,7 @@ namespace DungeonExplorer
         /// </summary>
         public string InventoryContents()
         {
-            return string.Join(", ", _inventory);
+            return "- "+string.Join("\n- ", _inventory);
         }
     }
 }
