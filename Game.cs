@@ -6,9 +6,11 @@ namespace DungeonExplorer
 {
     public static class Game
     {
-        private static Player player;
+        private static Player player = new Player("Link", 100, 30);
         private static Room currentRoom;
         private static int _minutesRemaining = 72 * 60;
+        
+        public static Player CurrentPlayer { get => player; }
 
         public static bool ElapseTime(int minutes)
         {
@@ -25,6 +27,12 @@ namespace DungeonExplorer
                 return;
             }
             Display.Write($"You have {_minutesRemaining / 60} hours remaining.");
+        }
+
+        public static void Over()
+        {
+            Display.Write($"Game over. You have failed...");
+            Environment.Exit(0);
         }
         
         public static void Start()
@@ -59,6 +67,9 @@ namespace DungeonExplorer
             Room room2 = new Room("North Clocktown", "As you come through the gate you notice a" +
                                                      " sizeable balloon hovering in the sky.");
             Room test = new Room("South Clocktown", "testing");
+            test.AddEnemy(new Ghoul());
+            test.AddEnemy(new Shade());
+            test.AddItem("Ocarina of Time");
             new Route(room1, room2, 10, true);
             new Route(room1, test, 10);
             room1.Enter();

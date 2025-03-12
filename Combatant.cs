@@ -22,6 +22,8 @@ namespace DungeonExplorer
             get => _health;
             set => _health = Math.Max(0, Math.Min(_maxHealth, value));
         }
+        
+        public bool Dead { get => _health <= 0;  }
 
         public string Name
         {
@@ -36,12 +38,13 @@ namespace DungeonExplorer
                 return false;
             }
             Health -= damage;
-            Display.Write($"{Name} took {damage} damage.");
+            Display.Write($"{Name} takes {damage} damage.");
             return true;
         }
 
         private void Stun()
         {
+            Display.Write($"{Name} is stunned.");
             Stunned = true;
         }
 
@@ -58,7 +61,7 @@ namespace DungeonExplorer
             Display.Write($"{Name} readies their defence!");
         }
 
-        protected CombatDecision GetDecision()
+        protected virtual CombatDecision GetDecision()
         {
             if (Generator.Next(3) == 0)
             {
@@ -70,6 +73,12 @@ namespace DungeonExplorer
         public void Fight(Combatant opponent)
         {
             Parrying = false;
+            if (Dead)
+            {
+                Display.Write($"{Name} succumbs to their injuries.");
+                return;
+            }
+
             if (Stunned)
             {
                 Stunned = false;

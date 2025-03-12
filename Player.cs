@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DungeonExplorer
 {
@@ -13,8 +14,20 @@ namespace DungeonExplorer
             _health = _maxHealth;
             _damage = damage;
         }
+
+        protected override CombatDecision GetDecision()
+        {
+            CombatDecision finalChoice = CombatDecision.Attack;
+            Choice attackChoice = new Choice("Attack", () => finalChoice = CombatDecision.Attack);
+            Choice defendChoice = new Choice("Defend", () => finalChoice = CombatDecision.Defend);
+            Menu combatMenu = new Menu("What do you do?", new[] { attackChoice, defendChoice });
+            combatMenu.Open();
+            return finalChoice;
+        }
+        
         public void PickUpItem(string item)
         {
+            Display.Write($"You obtained '{item}'.");
             _inventory.Add(item);
         }
 

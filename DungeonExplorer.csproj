@@ -47,6 +47,7 @@
     <Compile Include="Combatant.cs" />
     <Compile Include="DialogueNode.cs" />
     <Compile Include="Display.cs" />
+    <Compile Include="Enemies.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
