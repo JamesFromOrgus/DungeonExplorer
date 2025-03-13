@@ -71,6 +71,14 @@ namespace DungeonExplorer
         /// </summary>
         public void Display()
         {
+            Menu responseMenu;
+            // FIX FOR HARRY'S BUG
+            if (_responses.Count == 0)
+            {
+                responseMenu = new Menu(_message, new[] { new Choice("Exit", () => {})});
+                responseMenu.Open();
+                return;
+            }
             Choice[] responseChoices = new Choice[_responses.Count];
             for (int i = 0; i < responseChoices.Length; i++)
             {
@@ -83,7 +91,7 @@ namespace DungeonExplorer
                     }
                 });
             }
-            Menu responseMenu = new Menu(_message, responseChoices);
+            responseMenu = new Menu(_message, responseChoices);
             responseMenu.Open();
         }
     }
