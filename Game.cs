@@ -85,7 +85,9 @@ namespace DungeonExplorer
         /// </summary>
         public static void Start()
         {
+            // Instantiate player
             player = new Player(GetName(), 100, 30);
+            // Create observatory room, add required options to it
             Room observatory = new Room("Astral Observatory", "You walk through the door to be greeted " +
                                                         "by a huge telescope overlooking the night sky.");
             observatory.AddChoice("Read ominous sign", () =>
@@ -99,10 +101,13 @@ namespace DungeonExplorer
                 Display.Write("The moon looks bigger than usual...");
             });
 
+            // Create East Clocktown, an empty room bridging others together
             Room east = new Room("East Clocktown", "The once bustling high-street is almost empty. " +
                                                    "The moon must have scared everyone away...");
+            // Connect observatory and east
             new Route(observatory, east, 1);
             
+            // Create North Clocktown and add enemy encounters, connect to east
             Room north = new Room("North Clocktown", "You walk through the gates to be greeted by " +
                                                      "empty carnival stalls, and a campfire; it seems somebody was\n" +
                                                      "camping here before it was overrun by monsters...");
@@ -114,6 +119,8 @@ namespace DungeonExplorer
                 player.Heal();
             });
             new Route(east, north, 30);
+
+            // Create South Clocktown, add dialogue option and key
             Room south = new Room("South Clocktown", "Rows of slum housing line the streets. This " +
                                                      "doesn't seem like a nice place to live, even if the moon's " +
                                                      "minions weren't everywhere.");
@@ -133,6 +140,8 @@ namespace DungeonExplorer
             Room west = new Room("West Clocktown", "The gates of Clocktown stand in front of you. " +
                                                    "This is where you can make your escape and save yourself\nfrom " +
                                                    "the moon.");
+
+            // Create West Clocktown and method of winning
             west.AddChoice("Escape through the gate", () =>
             {
                 if (player.OwnsItem("Gate Key"))
@@ -145,6 +154,7 @@ namespace DungeonExplorer
             new Route(south, west, 60);
             new Route(north, west, 45);
 
+            // Enter the spawn room to begin the game
             observatory.Enter();
         }
     }

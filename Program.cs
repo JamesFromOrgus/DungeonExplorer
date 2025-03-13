@@ -13,6 +13,8 @@ namespace DungeonExplorer
         /// </summary>
         static void Main(string[] args)
         {
+            Display.Write("These messages can be skipped using the 'enter' key.");
+            Display.Write("This game features navigable menus. Use the arrow keys to select an option and enter to confirm.");
             Choice startChoice = new Choice("Play game", () =>
             {
                 Game.Start();
