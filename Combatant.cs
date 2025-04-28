@@ -12,7 +12,7 @@ namespace DungeonExplorer
     /// <summary>
     /// Base class for anything that can partake in combat: players and enemies.
     /// </summary>
-    public class Combatant
+    public abstract class Combatant
     {
         protected static readonly Random Generator = new Random();
         protected string _name = "BaseCombatant";
@@ -75,7 +75,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Attempt to deal damage to opponent, and stun if the attack is parried.
         /// </summary>
-        public void Attack(Combatant target)
+        public virtual void Attack(Combatant target)
         {
             Display.Write($"{Name} swings at {target.Name}");
             bool success = target.TakeDamage(_damage);
