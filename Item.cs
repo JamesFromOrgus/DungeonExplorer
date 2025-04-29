@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,13 +27,17 @@ namespace DungeonExplorer
 
         public override void Use()
         {
-            Display.Write("This item won't work here.");
+            Display.Write("It looks like this item doesn't work here...");
         }
     }
 
-    public class Weapon : Item
+    public class Weapon : Item, IOffensive
     {
-        public Weapon(string name, string description) : base(name, description) { }
+        private int _damage;
+        public Weapon(string name, string description, int damage) : base(name, description)
+        {
+            _damage = damage;
+        }
         public override void Use()
         {
             Display.Write("You can only use this item whilst in combat.");
@@ -40,19 +45,22 @@ namespace DungeonExplorer
         public virtual bool Attack(Combatant enemy)
         {
             Display.Write($"You try to attack {enemy.Name} with {Name}.");
-            return enemy.TakeDamage(10);
+            return enemy.TakeDamage(_damage);
         }
     }
 
-    // TODO: implement
-    public class DamageWeapon : Weapon
+
+    public class HealthPotion : Item
     {
+        public int _healAmount;
+        public HealthPotion(string name, int healAmount): base(name, $"Heals you for {healAmount}hp.")
+        {
+            _healAmount = healAmount;
+        }
 
-    }
-
-
-    public class Consumable : Item
-    {
-
+        public override void Use()
+        {
+            Game.CurrentPlayer.Heal(_healAmount);
+        }
     }
 }

@@ -57,9 +57,21 @@ namespace DungeonExplorer
             return true;
         }
 
+        /// <summary>
+        /// Restore to full health.
+        /// </summary>
         public void Heal()
         {
             Health = _maxHealth;
+            Display.Write($"Restored to {Health} health.");
+        }
+
+        /// <summary>
+        /// Heal by a defined amount.
+        /// </summary>
+        public void Heal(int amount)
+        {
+            Health += amount;
             Display.Write($"Restored to {Health} health.");
         }
 
