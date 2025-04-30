@@ -128,6 +128,7 @@ namespace DungeonExplorer
                     Game.CurrentPlayer.Fight(enemy);
                     if (Game.CurrentPlayer.Dead) Game.Over();
                     _enemies.RemoveAt(0);
+                    Statistics.RegisterKill();
                 }
             }
             

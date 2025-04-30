@@ -15,7 +15,8 @@ namespace DungeonExplorer
         private static Room currentRoom;
         private static int _minutesRemaining = 72 * 60;
         
-        public static Player CurrentPlayer { get => player; }
+        public static Player CurrentPlayer => player;
+        public static Room CurrentRoom => currentRoom;
 
         /// <summary>
         /// Skip through in-game time, meaning the player is closer to running out and failing.

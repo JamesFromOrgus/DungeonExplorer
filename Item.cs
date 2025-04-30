@@ -81,7 +81,6 @@ namespace DungeonExplorer
         }
     }
 
-
     public class HealingItem : Item
     {
         private int _healAmount;
