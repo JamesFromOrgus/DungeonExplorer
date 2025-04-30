@@ -111,8 +111,8 @@ namespace DungeonExplorer
             Room north = new Room("North Clocktown", "You walk through the gates to be greeted by " +
                                                      "empty carnival stalls, and a campfire; it seems somebody was\n" +
                                                      "camping here before it was overrun by monsters...");
-            north.AddEnemy(new Ghoul());
-            north.AddEnemy(new Shade());
+            north.AddEnemy(Enemies.Ghoul());
+            north.AddEnemy(Enemies.Shade());
             north.AddChoice("Rest at campfire", () =>
             {
                 Display.Write("You sit down at the campfire, enjoying the temporary respite.");

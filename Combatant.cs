@@ -14,11 +14,16 @@ namespace DungeonExplorer
     /// </summary>
     public abstract class Combatant
     {
-        protected static readonly Random Generator = new Random();
-        protected string _name = "BaseCombatant";
-        protected int _health;
-        protected int _maxHealth;
-        protected int _damage;
+        private readonly string _name;
+        private int _health;
+        private readonly int _maxHealth;
+
+        protected Combatant(string name, int health)
+        {
+            _name = name;
+            _maxHealth = health;
+            _health = health;
+        }
         
         public bool Stunned { get; protected set; }
         public bool Parrying { get; protected set; }
@@ -35,12 +40,9 @@ namespace DungeonExplorer
         /// <summary>
         /// Return true if combatant is dead.
         /// </summary>
-        public bool Dead { get => _health <= 0;  }
+        public bool Dead => _health <= 0;
 
-        public string Name
-        {
-            get => _name;
-        }
+        public string Name => _name;
         
         /// <summary>
         /// Alter health appropriately based on whether attack was defended.
@@ -62,8 +64,7 @@ namespace DungeonExplorer
         /// </summary>
         public void Heal()
         {
-            Health = _maxHealth;
-            Display.Write($"Restored to {Health} health.");
+            Heal(_maxHealth);
         }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Prevent combatant from taking its next turn.
         /// </summary>
-        private void Stun()
+        public void Stun()
         {
             Display.Write($"{Name} is stunned.");
             Stunned = true;
@@ -87,12 +88,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Attempt to deal damage to opponent, and stun if the attack is parried.
         /// </summary>
-        public virtual void Attack(Combatant target)
-        {
-            Display.Write($"{Name} swings at {target.Name}");
-            bool success = target.TakeDamage(_damage);
-            if (!success) Stun();
-        }
+        public abstract void Attack(Combatant target);
 
         /// <summary>
         /// Set parry flag so the game knows to stun opponent if they are foolish enough to attack.
@@ -102,20 +98,12 @@ namespace DungeonExplorer
             Parrying = true;
             Display.Write($"{Name} readies their defence!");
         }
-        
+
         /// <summary>
-        /// Provides the decision of the combatant. Meant to be overridden in Player class to enable them to make a
-        /// choice rather than random chance. Default behaviour is 1/3 chance of defence, 2/3 chance of attack,
-        /// offering some variety in NPC patterns.
+        /// Provides the decision of the combatant. Meant to be overridden in subclasses to provide either AI behaviour
+        /// or player choice that will control the actions of the combatant.
         /// </summary>
-        protected virtual CombatDecision GetDecision()
-        {
-            if (Generator.Next(3) == 0)
-            {
-                return CombatDecision.Defend;
-            }
-            return CombatDecision.Attack;
-        }
+        protected abstract CombatDecision GetDecision();
         
         /// <summary>
         /// Play out a single turn of combat and pass off the next turn to the opponent if they are alive.

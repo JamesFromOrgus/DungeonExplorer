@@ -21,6 +21,9 @@ namespace DungeonExplorer
         }
     }
     
+    /// <summary>
+    /// Placeholder items such as keys.
+    /// </summary>
     public class Miscellaneous : Item
     {
         public Miscellaneous(string name, string description) : base(name, description) { }
@@ -31,6 +34,9 @@ namespace DungeonExplorer
         }
     }
 
+    /// <summary>
+    /// Class for weapons that deal damage with no additional behaviour.
+    /// </summary>
     public class Weapon : Item, IOffensive
     {
         private int _damage;

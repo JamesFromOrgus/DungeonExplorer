@@ -9,17 +9,14 @@ namespace DungeonExplorer
     /// </summary>
     public class Player: Combatant
     {
-        private List<string> _inventory = new List<string>();
+        private List<Item> _inventory = new List<Item>();
         
         /// <summary>
         /// Set combatant properties.
         /// </summary>
-        public Player(string name, int health, int damage) 
+        public Player(string name, int health) : base(name, health)
         {
-            _name = name;
-            _maxHealth = health;
-            _health = _maxHealth;
-            _damage = damage;
+            
         }
         
         /// <summary>
@@ -38,16 +35,16 @@ namespace DungeonExplorer
         /// <summary>
         /// Add an item to player's inventory and display a message to inform them of the new item.
         /// </summary>
-        public void PickUpItem(string item)
+        public void PickUpItem(Item item)
         {
-            Display.Write($"You obtained '{item}'.");
+            Display.Write($"You obtained '{item.Name}'.");
             _inventory.Add(item);
         }
         
         /// <summary>
         /// Check whether player owns an item. Could be useful for checking if they have a key for a certain door etc.
         /// </summary>
-        public bool OwnsItem(string item)
+        public bool OwnsItem(Item item)
         {
             return _inventory.Contains(item);
         }

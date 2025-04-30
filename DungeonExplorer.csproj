@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Choice.cs" />
     <Compile Include="Combatant.cs" />
+    <Compile Include="Creature.cs" />
     <Compile Include="DialogueNode.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Enemies.cs" />
