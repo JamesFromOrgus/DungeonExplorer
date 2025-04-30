@@ -19,9 +19,10 @@ namespace DungeonExplorer
         {
             Name = name;
             Description = description;
-            AddChoice("View inventory", () =>
+            AddChoice("Open inventory", () =>
             {
-                Display.Write($"Your inventory contains:\n{Game.CurrentPlayer.InventoryContents()}");
+                Game.CurrentPlayer.OpenInventory();
+                //Display.Write($"Your inventory contains:\n{Game.CurrentPlayer.InventoryContents()}");
                 ShowMenu();
             });
         }

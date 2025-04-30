@@ -85,8 +85,19 @@ namespace DungeonExplorer
         /// </summary>
         public static void Start()
         {
+            // Create items
+            Miscellaneous gateKey = new Miscellaneous("Gate Key", "It appears to be the key to the front gate of Clocktown.\n" +
+                                                         "Better not lose it...");
+            Miscellaneous rupee = new Miscellaneous("Rupee", "It's a sparkling green gem. You recognise it as the standard\n" +
+                                                             "currency of Clocktown.");
+            Weapon kokiriSword = new Weapon("Kokiri Sword",
+                "It's a flimsy weapon you found in the forest where you grew up.\n" +
+                "Any value it has is purely sentimental.", 15);
+            HealingItem milk = new HealingItem("Lon Lon Milk", "It's a nutritious beverage sourced from the local ranch.", 50);
+            
             // Instantiate player
-            player = new Player(GetName(), 100, 30);
+            player = new Player(GetName(), 100);
+            player.PickUpItem("Kokiri Sword", true);
             // Create observatory room, add required options to it
             Room observatory = new Room("Astral Observatory", "You walk through the door to be greeted " +
                                                         "by a huge telescope overlooking the night sky.");
@@ -104,6 +115,7 @@ namespace DungeonExplorer
             // Create East Clocktown, an empty room bridging others together
             Room east = new Room("East Clocktown", "The once bustling high-street is almost empty. " +
                                                    "The moon must have scared everyone away...");
+            east.AddItem("Lon Lon Milk");
             // Connect observatory and east
             new Route(observatory, east, 1);
             

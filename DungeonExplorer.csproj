@@ -50,7 +50,11 @@
     <Compile Include="Display.cs" />
     <Compile Include="Enemies.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="IInspectable.cs" />
+    <Compile Include="IInteractable.cs" />
+    <Compile Include="Inventory.cs" />
     <Compile Include="IOffensive.cs" />
+    <Compile Include="IOpenable.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
