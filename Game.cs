@@ -135,13 +135,18 @@ namespace DungeonExplorer
                                                      "camping here before it was overrun by monsters...");
             north.AddEnemy(Enemies.Ghoul());
             north.AddEnemy(Enemies.Shade());
-            north.AddItem("Master Sword");
             north.AddChoice("Rest at campfire", () =>
             {
                 Display.Write("You sit down at the campfire, enjoying the temporary respite.");
                 player.Heal();
             });
             new Route(east, north, 30);
+
+            // Create location for better sword
+            Room temple = new Room("Temple of Time", "You enter the underground temple through a small passageway.\n" +
+                                                     "Illuminating the end of the hall is a glimmering sword.");
+            temple.AddItem("Master Sword");
+            new Route(north, temple, 3);
 
             // Create South Clocktown, add dialogue option and key
             Room south = new Room("South Clocktown", "Rows of slum housing line the streets. This " +
