@@ -10,6 +10,7 @@ namespace DungeonExplorer
     public class Player: Combatant
     {
         private Inventory _inventory;
+        public Inventory Inventory => _inventory;
         
         /// <summary>
         /// Set combatant properties.

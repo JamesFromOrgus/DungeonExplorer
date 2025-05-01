@@ -9,7 +9,7 @@ namespace DungeonExplorer
     public static class Statistics
     {
         const double Base = 1.5;
-        public static int Kills { get; private set; }
+        public static int Kills { get; set; }
         public static int Level => CalculateLevel(Kills);
         public static void RegisterKill()
         {
@@ -20,6 +20,14 @@ namespace DungeonExplorer
         private static int CalculateLevel(int kills)
         {
             return (int)Math.Log(kills + 1, Base)+1;
+        }
+
+        public static void View()
+        {
+            Display.Write($"[{Game.CurrentPlayer.Name.ToUpper()}'S STATS]\n" +
+                          $"You have killed {Kills} enemies.\n" +
+                          $"You are currently level {Level}.\n" +
+                          $"You have collected {Game.CurrentPlayer.Inventory.Count()} items.");
         }
     }
 }

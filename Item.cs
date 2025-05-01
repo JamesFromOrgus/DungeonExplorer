@@ -13,6 +13,8 @@ namespace DungeonExplorer
         private static Dictionary<string, Item> _nameMap = new Dictionary<string, Item>();
         private string _name;
         private string _description;
+        protected int _limit = 64;
+        public int Limit => _limit;
         public string Name => _name;
         public string Description => _description;
         public abstract void Use();
@@ -69,6 +71,7 @@ namespace DungeonExplorer
         public Weapon(string name, string description, int damage) : base(name, description)
         {
             _damage = damage;
+            _limit = 1;
         }
         public override void Use()
         {

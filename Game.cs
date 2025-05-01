@@ -12,11 +12,10 @@ namespace DungeonExplorer
     public static class Game
     {
         private static Player player;
-        private static Room currentRoom;
         private static int _minutesRemaining = 72 * 60;
         
         public static Player CurrentPlayer => player;
-        public static Room CurrentRoom => currentRoom;
+        public static Room CurrentRoom { get; set; }
 
         /// <summary>
         /// Skip through in-game time, meaning the player is closer to running out and failing.
@@ -47,6 +46,7 @@ namespace DungeonExplorer
         /// </summary>
         public static void Over()
         {
+            Save.DeleteFile();
             Display.Write($"Game over. You have failed...");
             Environment.Exit(0);
         }
@@ -56,6 +56,7 @@ namespace DungeonExplorer
         /// </summary>
         public static void Win()
         {
+            Save.WriteFile();
             Display.Write($"You have successfully escaped Clocktown!");
             Display.Write($"The moon will not crash down on you, {player.Name}.");
             Display.Write("Well done!");
@@ -98,7 +99,13 @@ namespace DungeonExplorer
             
             // Instantiate player
             player = new Player(GetName(), 100);
-            player.PickUpItem("Kokiri Sword", true);
+            Save data = new Save(player.Name);
+            foreach (var item in data.Items)
+            {
+                player.PickUpItem(item.Key, item.Value, true);
+            }
+            Statistics.Kills = data.Kills;
+            
             // Create observatory room, add required options to it
             Room observatory = new Room("Astral Observatory", "You walk through the door to be greeted " +
                                                         "by a huge telescope overlooking the night sky.");
@@ -167,8 +174,8 @@ namespace DungeonExplorer
             new Route(south, west, 60);
             new Route(north, west, 45);
 
-            // Enter the spawn room to begin the game
-            observatory.Enter();
+            // Enter the start room to begin the game
+            Room.GetRoom(data.StartRoom).Enter();
         }
     }
 }

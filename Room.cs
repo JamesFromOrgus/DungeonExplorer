@@ -9,11 +9,17 @@ namespace DungeonExplorer
     /// </summary>
     public class Room
     {
+        private static Dictionary<string, Room> _map = new Dictionary<string, Room>();
         public string Name { get; private set; }
         public string Description { get; private set; }
         private List<Combatant> _enemies = new List<Combatant>();
         private List<string> _items = new List<string>();
         private List<Choice> _choices = new List<Choice>();
+
+        public static Room GetRoom(string name)
+        {
+            return _map[name];
+        }
 
         public Room(string name, string description)
         {
@@ -22,9 +28,18 @@ namespace DungeonExplorer
             AddChoice("Open inventory", () =>
             {
                 Game.CurrentPlayer.OpenInventory();
-                //Display.Write($"Your inventory contains:\n{Game.CurrentPlayer.InventoryContents()}");
                 ShowMenu();
             });
+            AddChoice("View statistics", () =>
+            {
+                Statistics.View();
+                ShowMenu();
+            });
+            AddChoice("Save progress", (() =>
+            {
+                Save.WriteFile();
+            }));
+            _map[name] = this;
         }
         
         /// <summary>
@@ -119,6 +134,7 @@ namespace DungeonExplorer
         /// </summary>
         public void Enter()
         {
+            Game.CurrentRoom = this;
             if (_enemies.Count > 0)
             {
                 while (_enemies.Count > 0)

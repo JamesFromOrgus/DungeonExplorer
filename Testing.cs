@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Media;
 
 namespace DungeonExplorer
@@ -9,11 +10,14 @@ namespace DungeonExplorer
     /// </summary>
     public class Testing
     {
+        private const string logPath = "log.txt";
         /// <summary>
         /// Begin the testing process, individually calling upon each system in the project
         /// </summary>
         public void Test()
         {
+            Log($"Test started at {DateTime.Now.ToLongTimeString()}");
+            
             // Test menu system, create basic menu with two options that print different things.
             Menu choice = new Menu("Pick a word:", new[]
             {
@@ -25,6 +29,7 @@ namespace DungeonExplorer
                 new Choice( "Option B", () => Console.WriteLine("ok you picked option B"))
             });
             choice.Open();
+            Log($"Test 1 passed at {DateTime.Now.ToLongTimeString()}");
             
             // Test dialogue system, basic conversation about nothing: also includes cycles
             DialogueNode ping = new DialogueNode("The guy", "Ping");
@@ -37,10 +42,18 @@ namespace DungeonExplorer
             nextNode.AddResponse("Interesting, let's continue.", ping);
             
             ping.Display();
+            Log($"Test 2 passed at {DateTime.Now.ToLongTimeString()}");
 
             // Test typewriting effect            
             Display.Write("Here is a test. I am gonna fill this up with words so it takes long enough to write to the" +
                           "\nthe screen as I would like to test some things such as skipping the typewriting effect.");
+            
+            Log($"Test 3 passed at {DateTime.Now.ToLongTimeString()}");
+        }
+
+        private void Log(string message)
+        {
+            File.AppendAllText(logPath, message + Environment.NewLine);
         }
     }
 }

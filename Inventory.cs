@@ -7,6 +7,7 @@ namespace DungeonExplorer
     public class Inventory : IOpenable
     {
         private Dictionary<string, int> _items = new Dictionary<string, int>();
+        public Dictionary<string, int> Items => _items;
 
         public bool Contains(string name)
         {
@@ -23,10 +24,10 @@ namespace DungeonExplorer
         {
             if (_items.ContainsKey(name))
             {
-                _items[name] += amount;
+                _items[name] = Math.Min(_items[name] + amount, Item.GetItem(name).Limit);
                 return;
             }
-            _items.Add(name, amount);
+            _items.Add(name, Math.Min(amount, Item.GetItem(name).Limit));
         }
 
         public void RemoveItem(string name, int amount)
@@ -56,6 +57,16 @@ namespace DungeonExplorer
             Menu weaponsMenu = new Menu("Pick an item to attack with:", choices);
             weaponsMenu.Open();
             return chosen;
+        }
+
+        public int Count()
+        {
+            int total = 0;
+            foreach (var kvp in _items)
+            {
+                total += kvp.Value;
+            }
+            return total;
         }
 
         public void Open()
