@@ -75,8 +75,8 @@ namespace DungeonExplorer
 
         public override void Attack(Combatant target)
         {
-            //Display.Write($"{Name} swings at you.");
             Weapon weapon = _inventory.ChooseWeapon();
+            Display.Write($"{Name} tries to attack {target.Name} with {weapon.Name}.");
             bool success = weapon.Attack(target);
             if (!success) Stun();
         }

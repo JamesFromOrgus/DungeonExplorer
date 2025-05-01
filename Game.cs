@@ -95,6 +95,8 @@ namespace DungeonExplorer
             Weapon kokiriSword = new Weapon("Kokiri Sword",
                 "It's a flimsy weapon you found in the forest where you grew up.\n" +
                 "Any value it has is purely sentimental.", 15);
+            Weapon masterSword = new Weapon("Master Sword", "You recognise it from the legends.\n" +
+                                                            "It's a darkness-sealing blade that only the hero of the prophecy can wield.", 60);
             HealingItem milk = new HealingItem("Lon Lon Milk", "It's a nutritious beverage sourced from the local ranch.", 50);
             
             // Instantiate player
@@ -133,6 +135,7 @@ namespace DungeonExplorer
                                                      "camping here before it was overrun by monsters...");
             north.AddEnemy(Enemies.Ghoul());
             north.AddEnemy(Enemies.Shade());
+            north.AddItem("Master Sword");
             north.AddChoice("Rest at campfire", () =>
             {
                 Display.Write("You sit down at the campfire, enjoying the temporary respite.");
@@ -171,6 +174,7 @@ namespace DungeonExplorer
                 Display.Write("You don't have the key.");
             });
             west.AddItem("Rupee");
+            west.AddEnemy(Enemies.Boss());
             new Route(south, west, 60);
             new Route(north, west, 45);
 

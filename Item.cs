@@ -79,7 +79,7 @@ namespace DungeonExplorer
         }
         public virtual bool Attack(Combatant enemy)
         {
-            Display.Write($"You try to attack {enemy.Name} with {Name}.");
+            //Display.Write($"You try to attack {enemy.Name} with {Name}.");
             return enemy.TakeDamage(_damage);
         }
     }

@@ -73,7 +73,7 @@ namespace DungeonExplorer
         public void Heal(int amount)
         {
             Health += amount;
-            Display.Write($"Restored to {Health} health.");
+            Display.Write($"{Name} was restored to {Health} health.");
         }
 
         /// <summary>

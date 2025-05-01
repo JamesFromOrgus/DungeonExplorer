@@ -46,7 +46,7 @@ namespace DungeonExplorer
             List<Choice> choices = new List<Choice>();
             foreach (var nameAndAmount in _items
                          .Where((pair => Item.GetItem(pair.Key) is Weapon))
-                         .OrderBy(pair => (Item.GetItem(pair.Key) as Weapon).Damage))
+                         .OrderByDescending(pair => (Item.GetItem(pair.Key) as Weapon).Damage))
             {
                 string name = nameAndAmount.Key;
                 choices.Add(new Choice(name, () =>

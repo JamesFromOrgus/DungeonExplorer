@@ -7,7 +7,7 @@ namespace DungeonExplorer
     /// </summary>
     public class Creature : Combatant
     {
-        private readonly int _damage;
+        protected readonly int _damage;
         private static readonly Random Generator = new Random();
         private readonly int _aggression;
 
@@ -22,7 +22,7 @@ namespace DungeonExplorer
         /// </summary>
         public override void Attack(Combatant target)
         {
-            Display.Write($"{Name} swings at you.");
+            Display.Write($"{Name} swings at {target.Name}.");
             bool success = target.TakeDamage(_damage);
             if (!success) Stun();
         }
