@@ -45,17 +45,27 @@
   <ItemGroup>
     <Compile Include="Choice.cs" />
     <Compile Include="Combatant.cs" />
+    <Compile Include="Creature.cs" />
     <Compile Include="DialogueNode.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Enemies.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="IInspectable.cs" />
+    <Compile Include="IInteractable.cs" />
+    <Compile Include="Inventory.cs" />
+    <Compile Include="IOffensive.cs" />
+    <Compile Include="IOpenable.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Routes.cs" />
+    <Compile Include="Save.cs" />
+    <Compile Include="Stats.cs" />
     <Compile Include="Testing.cs" />
+    <Compile Include="Vampire.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

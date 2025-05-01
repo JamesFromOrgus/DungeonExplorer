@@ -12,10 +12,10 @@ namespace DungeonExplorer
     public static class Game
     {
         private static Player player;
-        private static Room currentRoom;
         private static int _minutesRemaining = 72 * 60;
         
-        public static Player CurrentPlayer { get => player; }
+        public static Player CurrentPlayer => player;
+        public static Room CurrentRoom { get; set; }
 
         /// <summary>
         /// Skip through in-game time, meaning the player is closer to running out and failing.
@@ -46,6 +46,7 @@ namespace DungeonExplorer
         /// </summary>
         public static void Over()
         {
+            Save.DeleteFile();
             Display.Write($"Game over. You have failed...");
             Environment.Exit(0);
         }
@@ -55,6 +56,7 @@ namespace DungeonExplorer
         /// </summary>
         public static void Win()
         {
+            Save.WriteFile();
             Display.Write($"You have successfully escaped Clocktown!");
             Display.Write($"The moon will not crash down on you, {player.Name}.");
             Display.Write("Well done!");
@@ -85,8 +87,27 @@ namespace DungeonExplorer
         /// </summary>
         public static void Start()
         {
+            // Create items
+            Miscellaneous gateKey = new Miscellaneous("Gate Key", "It appears to be the key to the front gate of Clocktown.\n" +
+                                                         "Better not lose it...");
+            Miscellaneous rupee = new Miscellaneous("Rupee", "It's a sparkling green gem. You recognise it as the standard\n" +
+                                                             "currency of Clocktown.");
+            Weapon kokiriSword = new Weapon("Kokiri Sword",
+                "It's a flimsy weapon you found in the forest where you grew up.\n" +
+                "Any value it has is purely sentimental.", 15);
+            Weapon masterSword = new Weapon("Master Sword", "You recognise it from the legends.\n" +
+                                                            "It's a darkness-sealing blade that only the hero of the prophecy can wield.", 60);
+            HealingItem milk = new HealingItem("Lon Lon Milk", "It's a nutritious beverage sourced from the local ranch.", 50);
+            
             // Instantiate player
-            player = new Player(GetName(), 100, 30);
+            player = new Player(GetName(), 100);
+            Save data = new Save(player.Name);
+            foreach (var item in data.Items)
+            {
+                player.PickUpItem(item.Key, item.Value, true);
+            }
+            Statistics.Kills = data.Kills;
+            
             // Create observatory room, add required options to it
             Room observatory = new Room("Astral Observatory", "You walk through the door to be greeted " +
                                                         "by a huge telescope overlooking the night sky.");
@@ -104,6 +125,7 @@ namespace DungeonExplorer
             // Create East Clocktown, an empty room bridging others together
             Room east = new Room("East Clocktown", "The once bustling high-street is almost empty. " +
                                                    "The moon must have scared everyone away...");
+            east.AddItem("Lon Lon Milk");
             // Connect observatory and east
             new Route(observatory, east, 1);
             
@@ -111,8 +133,9 @@ namespace DungeonExplorer
             Room north = new Room("North Clocktown", "You walk through the gates to be greeted by " +
                                                      "empty carnival stalls, and a campfire; it seems somebody was\n" +
                                                      "camping here before it was overrun by monsters...");
-            north.AddEnemy(new Ghoul());
-            north.AddEnemy(new Shade());
+            north.AddEnemy(Enemies.Ghoul());
+            north.AddEnemy(Enemies.Shade());
+            north.AddItem("Master Sword");
             north.AddChoice("Rest at campfire", () =>
             {
                 Display.Write("You sit down at the campfire, enjoying the temporary respite.");
@@ -151,11 +174,12 @@ namespace DungeonExplorer
                 Display.Write("You don't have the key.");
             });
             west.AddItem("Rupee");
+            west.AddEnemy(Enemies.Boss());
             new Route(south, west, 60);
             new Route(north, west, 45);
 
-            // Enter the spawn room to begin the game
-            observatory.Enter();
+            // Enter the start room to begin the game
+            Room.GetRoom(data.StartRoom).Enter();
         }
     }
 }

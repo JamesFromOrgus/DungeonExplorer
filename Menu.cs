@@ -10,7 +10,7 @@ namespace DungeonExplorer
     /// 'Choice' was chosen. This means there is little chance for error: no opportunity for erroneous input like
     /// there is with Console.ReadLine
     /// </summary>
-    public class Menu
+    public class Menu : IOpenable
     {
         private readonly string _prompt;
 
