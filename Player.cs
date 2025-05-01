@@ -87,5 +87,6 @@ namespace DungeonExplorer
         public void OpenInventory()
         {
             _inventory.Open();
+        }
     }
 }
