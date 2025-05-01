@@ -73,6 +73,9 @@ namespace DungeonExplorer
             return _inventory.Contains(item, amount);
         }
 
+        /// <summary>
+        /// Implement custom behaviour of Attack, so that player can use weapons rather than a damage stat.
+        /// </summary>
         public override void Attack(Combatant target)
         {
             Weapon weapon = _inventory.ChooseWeapon();
@@ -84,14 +87,5 @@ namespace DungeonExplorer
         public void OpenInventory()
         {
             _inventory.Open();
-        }
-        
-        /// <summary>
-        /// Display the player's items in a digestible manner.
-        /// </summary>
-        // public string InventoryContents()
-        // {
-        //     return "- "+string.Join("\n- ", _inventory);
-        // }
     }
 }

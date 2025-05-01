@@ -19,7 +19,7 @@ namespace DungeonExplorer
         }
         
         /// <summary>
-        /// Weak enemy that can be taken out in a singular hit with the right tools.
+        /// Final boss of the game, guarding the gate.
         /// </summary>
         public static Vampire Boss()
         {

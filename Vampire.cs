@@ -1,5 +1,8 @@
 namespace DungeonExplorer
 {
+    /// <summary>
+    /// Life-stealing enemy used for the final boss.
+    /// </summary>
     public class Vampire : Creature
     {
         private readonly double _lifesteal;

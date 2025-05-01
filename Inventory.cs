@@ -9,6 +9,9 @@ namespace DungeonExplorer
         private Dictionary<string, int> _items = new Dictionary<string, int>();
         public Dictionary<string, int> Items => _items;
 
+        /// <summary>
+        /// Denotes whether player owns an item of the given name.
+        /// </summary>
         public bool Contains(string name)
         {
             return _items.ContainsKey(name);
@@ -20,6 +23,9 @@ namespace DungeonExplorer
             return _items[name] >= amount;
         }
         
+        /// <summary>
+        /// Add x amount of item to the inventory.
+        /// </summary>
         public void AddItem(string name, int amount)
         {
             if (_items.ContainsKey(name))
@@ -30,6 +36,9 @@ namespace DungeonExplorer
             _items.Add(name, Math.Min(amount, Item.GetItem(name).Limit));
         }
 
+        /// <summary>
+        /// Delete x amount of item from inventory. Useful for consumables etc.
+        /// </summary>
         public void RemoveItem(string name, int amount)
         {
             if (!_items.ContainsKey(name)) return;
@@ -39,7 +48,10 @@ namespace DungeonExplorer
                 _items.Remove(name);
             }
         }
-
+        
+        /// <summary>
+        /// Lets user choose from all available weapons, sorted in order of descending damage using LINQ.
+        /// </summary>
         public Weapon ChooseWeapon()
         {
             Weapon chosen = null;
@@ -59,6 +71,9 @@ namespace DungeonExplorer
             return chosen;
         }
 
+        /// <summary>
+        /// Return total item count.
+        /// </summary>
         public int Count()
         {
             int total = 0;
@@ -69,6 +84,9 @@ namespace DungeonExplorer
             return total;
         }
 
+        /// <summary>
+        /// Lets user interact with their items and filter them for easier location.
+        /// </summary>
         public void Open()
         {
             Func<Item, bool> filter = (x) => true;
